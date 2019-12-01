@@ -1,23 +1,24 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 
 public class CashBackTestClass {
 
-
-    @Test
-    public void firstPassedTest() {
+    @ParameterizedTest
+    @CsvFileSource(resources = "testData.csv", numLinesToSkip = 1)
+    public void passedTest(int input, int expected) {
         CashbackHackService cashbackHackService = new CashbackHackService();
-        int summUntilCaskBack = cashbackHackService.remain(500);
-        Assertions.assertEquals(500,summUntilCaskBack);
+        int summUntilCaskBack = cashbackHackService.remain(input);
+        Assertions.assertEquals(expected, summUntilCaskBack);
 
     }
 
     @Test
-    public void secondFailedTest() {
+    public void zeroFailedTest() {
         CashbackHackService cashbackHackService = new CashbackHackService();
-        int summUntilCaskBack = cashbackHackService.remain(1000);
-        Assertions.assertEquals(0,summUntilCaskBack);
+        Throwable exception = Assertions.assertThrows(IllegalArgumentException.class, () -> cashbackHackService.remain(0));
+        Assertions.assertEquals("amount must be greater than zero", exception.getMessage());
     }
-
 }
