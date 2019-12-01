@@ -17,6 +17,6 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.1'
+test {
+    useJUnitPlatform()
 }
